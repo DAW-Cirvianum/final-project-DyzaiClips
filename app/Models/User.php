@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -34,7 +35,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
@@ -44,5 +45,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Products owned by the user.
+     *
+     * @return BelongsToMany
+     */
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class);
+    }
+
+    /**
+     * Transactions where the user acts as buyer.
+     *
+     * @return HasMany
+     */
+    public function boughtTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'buyer_id');
+    }
+
+    /**
+     * Transactions where the user acts as seller.
+     *
+     * @return HasMany
+     */
+    public function soldTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'seller_id');
     }
 }
