@@ -340,6 +340,7 @@ When a purchase is made:
 
 ## **Project Structure**
 
+```bash
 pokemon-market/
 ├── backend/ (Laravel API)
 │ ├── app/
@@ -356,7 +357,7 @@ pokemon-market/
 │ └── ...
 │
 └── README.md
-
+```
 
 ---
 
@@ -373,7 +374,8 @@ php artisan serve
 
 ```
 ### **Frontend**
-
+```bash
 npm install
 npm run dev
 
+```
