@@ -1,261 +1,379 @@
-<<<<<<< HEAD
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nMSQJoxi)
-# **Final Project: Build a Full-Stack Web Application** 
+
+# **Final Project: Build a Full-Stack Web Application**
+
 ## **Introduction**
 
-In this project, you will use everything you have learned in the course to create a modern web application. You will work with tools like **React+Vite** (for the front-end) and **Laravel** (for the back-end) to build a complete application. The project will also focus on **user experience (UX)** and **user interface (UI)** design, making sure the application is easy to use, looks good, and works well for everyone.
+This project consists of developing a full-stack web application using all the knowledge acquired during the course.  
+The application, called **Pokémon Market**, is inspired by online trading platforms such as Cardmarket and focuses on the buying and selling of Pokémon-related products.
 
-## **Goals** 
+The project is built using **React + Vite** for the front-end and **Laravel** for the back-end, following modern development practices and ensuring a clean user experience and interface.
 
-- **Learn MVC (Model-View-Controller)**:  
-   Understand how the MVC structure works by using **Laravel**. You will organize the code into models, views, and controllers to keep everything clear and easy to manage.  
-- **Connect Front-End and Back-End**:  
-   Combine the **React \+ Vite**(for the user interface) with **Laravel** (for the database and server logic) to create a full-stack application.  
-- **Work with Databases**:  
-   Add a database to your project to save and manage data. You will use Laravel to create tables, store data, and handle CRUD operations (Create, Read, Update, Delete).  
-- **Modern Front-End Development**:  
-   Use advanced front-end techniques like server-side rendering, dynamic routing, and state management with React+Vite. Create a website that works well on all devices.  
-- **Improve Usability and Accessibility**:  
-   Make sure your application is user-friendly, easy to navigate, and accessible to everyone, including people with disabilities.  
-- **Internationalization (i18n)**  
-   Make the application adapt to the user’s language and, if not defined, to the browser’s default language.
+---
 
-## **What You Will Create** 
+## **Goals**
 
-At the end of the project, you will have:
+- **Learn MVC (Model-View-Controller)**  
+  Understand and apply the MVC architecture using Laravel by organizing the application into models, controllers, and routes.
 
-- A working web application where the **front-end (Vite+React)** and **back-end (Laravel)** work together.  
-- Experience in creating features like user login, saving data to a database, and showing information on the website.  
-- A clean and responsive design that looks good and works well on mobile devices and desktop computers.  
-- A document explaining how your project works, the challenges you faced, and how you solved them.
+- **Connect Front-End and Back-End**  
+  Integrate a React + Vite front-end with a Laravel API back-end using HTTP requests and JSON responses.
 
-## **Backend project** 
+- **Work with Databases**  
+  Design and implement a relational database using Laravel migrations, models, factories, and seeders.  
+  Perform full CRUD operations.
 
-The **back-end** of your project must operate as an **API** that provides several **endpoints** to the **front-end**.  
- This means your application must define **how data is exchanged** between the client and the server. The most common format is **JSON**, but you may also return **arrays**, **objects**, or any other structure that fits your application’s logic.
+- **Modern Front-End Development**  
+  Use React Router, protected routes, state management, and dynamic rendering to create a modern web application.
 
-The goal is that the front-end can *request data* or *send information* through HTTP methods (GET, POST, PUT, DELETE), and the back-end responds in a **consistent**, **structured**, and **predictable** way.
+- **Improve Usability and Accessibility**  
+  Ensure the application is easy to navigate, responsive, and accessible on desktop and mobile devices.
 
-However, an API must also ensure that **only authorized users** can access certain functionalities. For this reason, you must implement:
+---
 
-- **Authentication** (verifying the identity of the user),  
-- **Route protection** (blocking access to restricted areas for unauthenticated users).
+## **What You Will Create**
 
-These mechanisms can be implemented in several ways, such as:
+At the end of the project, the following has been achieved:
 
-- Using **tokens** (e.g., Laravel Sanctum or JWT),  
-- Using **session-based** authentication handled by the server,
+- A fully functional **full-stack web application**.
+- Secure authentication using **Bearer Tokens (Laravel Sanctum)**.
+- A relational database with multiple connected entities.
+- A responsive and user-friendly interface.
+- Clear documentation explaining the project structure and functionality.
 
-The important part is that the **data flow** between the back-end and the front-end remains secure, well-structured, and easy to maintain.
+---
 
-## Backend \- Requirements 
+## **Backend Project**
 
-### **DataBase ** 
+The back-end is implemented as a **REST API** using Laravel.
 
-The application's database must manage a minimum of 7 entities or tables, and all must be properly related:  
-Remember:
+All communication between front-end and back-end is handled via HTTP requests using JSON format.  
+The API supports the following HTTP methods:
 
-- Table names should be in plural and lowercase.  
-- Model names should be singular and start with an uppercase letter.  
-- Fields in the tables that establish relationships should be named user\_id, ticket\_id, image\_id, etc.
+- GET
+- POST
+- PUT
+- DELETE
 
-A database schema must be provided, including the fields or columns of the tables and their relationships.Additionally, a brief explanation of the schema must be included with the database schema. 
+### **Authentication and Route Protection**
 
-Your project must include at least one migration for each model. Additionally, there should be two or more migrations that add fields or modify fields in a previous migration.
+The API implements:
 
-Your code must include factories and seed to fill the database with fake data.
+- Token-based authentication using **Laravel Sanctum**
+- Protected routes for authenticated users
+- Role-based access control (`user` and `admin`)
 
-### **Authentication** 
+Public routes:
+- `/api/login`
+- `/api/register`
 
-- The application's routes must be protected except for those that are not necessary, such as home, login, or register.  
- The authentication must manage two types of users roles, for example, admin and user. You can manage authentication using differents ways:  
-  - Inside the controller  
-  - With middleware  
-  - With token abilities  
-- User authentication must be possible using either a username or an email address.  
-- Password recovery must be implemented through email.  
-- Bearer Token
+All other routes require authentication.
 
-### **API Documentation ** 
+---
 
-- It’s necessary swagger documentation for each endpoint  
-- API must return combinated select. For example:  
-  - The tasks from an specific user  
-  - Appointments between two dates  
-  - Best rated books
+## **Database**
 
-### **Functionality ** 
+The database manages more than the required **7 entities**, all properly related.
 
-- The user with the "user" role must be able to perform CRUD operations on the application's items (images, products, etc.).(1p)  
-- The admin must be able to edit the application's users, such as changing roles, updating names, emails, etc., in addition to managing other functionalities of the application
+### **Tables**
 
-**Admin Functionality**
+- users
+- products
+- product_values
+- transactions
+- boxes
+- packs
+- cards
+- product_value_transaction
 
-At least **one of the administrator features** must be managed **from the back-end** using **Blade views**. This means that even though your project includes an API for communication with the front-end, the admin area can work in a more traditional server-rendered way.
+### **Relationships**
 
-A common example is **user management**:
+- Users can perform transactions
+- Products have multiple price variations
+- Transactions can include multiple product values
+- Boxes contain packs, packs contain cards
 
-- The admin can view the list of users.  
-- Update user data.  
-- Activate, deactivate or delete accounts.  
-- Access protected pages rendered with Blade.
+All tables follow Laravel naming conventions.
 
-This requirement demonstrates your ability to combine:
+---
 
-- API \+ front-end (for the public/user-facing part),  
-- Back-end with Blade (for internal tools and administration).
-
-### **Extra Features:** 
-
-- Use of an external API 
-- Mail verification  
-- Authentication with Google. 
-
-## Front\-End Requirements
-
-### **Routes and Navigation** 
-
-- The application must include **nested and dynamic routes**, using React routing system effectively:  
-   Example:  
-    - `/products`: Displays a list of products.  
-    - `/products/:id`: Displays detailed information about a single product.  
-    - `/dashboard`: A protected route with nested child routes like `/dashboard/settings` or `/dashboard/reports`.  
-- **Error boundaries** must be implemented for all routes, providing clear feedback for missing data (e.g., "Product not found").
-
-### **State Management** 
-
-- Use **Actions** to handle state and data operations:  
-  - Implement a **global notification system** for success/error messages after actions (e.g., "Product saved successfully").  
-  - Example:  
-    - Submitting a form to update product information triggers a success notification displayed across the app.  
-  - Ensure temporary UI states like **modals** or **dropdowns** are managed effectively. 
+## **Factories and Seeders**
 
+The database is populated using factories and seeders:
 
-### **Forms and Validations** 
+- Realistic Pokémon product names
+- New and used product conditions
+- Used prices are always lower than new prices
+- Coherent stock values
+- Fake users and transactions for testing
 
-- Create at least **two advanced forms**:  
-  - Example 1: A product creation form with:  
-    - **Server-side validation**: Ensure fields like `price` and `name` are valid before saving.  
-    - Dynamic field generation: Allow adding/removing tags or categories dynamically.  
-  - Example 2: A search filter form with:  
-    - **Client-side validation** for instant feedback.  
-    - Integration with React to filter results (e.g., filter products by price range, category, or availability).
+---
 
-### **Data Fetching and Mutations** 
+## **Functionality**
 
-- Perform **CRUD operations**:  
-  - Example: A "Product" entity and an "Order" entity.  
-    - Users must be able to:  
-      - Create, view, edit, and delete products.  
-      - Place and manage orders.  
-  - Ensure loaders handle pagination for large datasets (e.g., display products 10 at a time with navigation).
+### **User Role**
 
-### **Responsive and Accessible Design** 
+- Register and login
+- Browse products
+- Search products by name
+- View product prices
+- Buy products
+- View purchase history
 
-- The application must be **responsive** and tested on various devices:  
-  - Example: A mobile-friendly navigation bar that becomes a hamburger menu on smaller screens.  
-- Ensure **accessibility standards**:  
-  - All interactive elements (buttons, links, forms) must be keyboard-accessible.  
-  - Include ARIA attributes for modals and dropdowns.  
-  - Use a tool like Lighthouse to ensure a score of at least **90%** for accessibility.
+### **Admin Role**
 
-### **UX/UI Elements** 
+- Create new products
+- Define prices, conditions, and stock
+- Update and delete products
+- Access protected admin-only routes
 
-- Include at least **two modern UX/UI elements**:  
-  - Example:  
-    - A **drag-and-drop interface** for reordering items in a list (e.g., reorder product categories).  
-    - A **modal dialog** for editing items without leaving the page.  
-  - Ensure smooth animations and transitions for a polished look.  
+---
 
+## **Front-End Requirements**
 
-### **Code Quality and Organization \+ Documentation** 
-- Organize your code clearly:  
-  - Example:  
-    - Create a folder structure that separates components, routes, and utility functions.  
-    - Use reusable components for shared UI elements (e.g., buttons, modals, form inputs).  
-  - Add meaningful comments for complex sections of the code.
+### **Routing and Navigation**
 
-### **Extra: Advanced Features.**  
+- React Router used for navigation
+- Protected routes for authenticated users
+- Dynamic routes for product details
 
-- **Ex: File Upload and Display**:  
-  - Example: A user can upload a product image. The image preview is shown immediately, and the file is stored in the backend.  
-    - **Dark Mode Toggle**:  
-      - Example: Allow users to switch between light and dark themes. Persist the theme in localStorage or the database.  
-    - **Dashboard Analytics**:  
-      - Example: Create a dashboard with charts and graphs showing key statistics (e.g., total sales, top products). Use a library like Chart.js or D3.js.  
-    - **Real-Time Data**:  
-      - Example: Use a WebSocket or a polling strategy to update data in real-time (e.g., show live updates of orders being placed).  
+### **State Management**
 
-## Delivery requirements
+- React hooks (`useState`, `useEffect`)
+- Token and role stored in `localStorage`
 
-- The project must be delivered through a GitHub repository.  
-  - There is one repo for all the project  
-- The project must include a link in Readme with   
-  - the database schema  
-  - Description of the project functionality, explaining controllers, models and views.  
-- One chapter for server and one for client
-- Installation instructions  
-  - Instruction to set your project into production  
-- Delivery date: **16-01-26.** 
+### **Forms and Validation**
 
-=======
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+- Login and register forms with validation
+- Product creation with server-side validation
+- Search input with real-time filtering
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### **Responsive Design**
 
-## About Laravel
+- Responsive layout using CSS
+- Navigation adapts to smaller screens
+- Tested on desktop and mobile resolutions
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## **Transactions**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Users can buy products through the interface.
 
-## Learning Laravel
+When a purchase is made:
+- A transaction is created
+- Stock is reduced
+- The purchase appears in the user's transaction history
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## **Project Structure**
 
-## Laravel Sponsors
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/nMSQJoxi)
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# **Final Project: Build a Full-Stack Web Application**
 
-### Premium Partners
+## **Introduction**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+This project consists of developing a full-stack web application using all the knowledge acquired during the course.  
+The application, called **Pokémon Market**, is inspired by online trading platforms such as Cardmarket and focuses on the buying and selling of Pokémon-related products.
 
-## Contributing
+The project is built using **React + Vite** for the front-end and **Laravel** for the back-end, following modern development practices and ensuring a clean user experience and interface.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## **Goals**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **Learn MVC (Model-View-Controller)**  
+  Understand and apply the MVC architecture using Laravel by organizing the application into models, controllers, and routes.
 
-## Security Vulnerabilities
+- **Connect Front-End and Back-End**  
+  Integrate a React + Vite front-end with a Laravel API back-end using HTTP requests and JSON responses.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **Work with Databases**  
+  Design and implement a relational database using Laravel migrations, models, factories, and seeders.  
+  Perform full CRUD operations.
 
-## License
+- **Modern Front-End Development**  
+  Use React Router, protected routes, state management, and dynamic rendering to create a modern web application.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
->>>>>>> c90f91a (INICI PROJECTE LARABEL)
+- **Improve Usability and Accessibility**  
+  Ensure the application is easy to navigate, responsive, and accessible on desktop and mobile devices.
+
+---
+
+## **What You Will Create**
+
+At the end of the project, the following has been achieved:
+
+- A fully functional **full-stack web application**.
+- Secure authentication using **Bearer Tokens (Laravel Sanctum)**.
+- A relational database with multiple connected entities.
+- A responsive and user-friendly interface.
+- Clear documentation explaining the project structure and functionality.
+
+---
+
+## **Backend Project**
+
+The back-end is implemented as a **REST API** using Laravel.
+
+All communication between front-end and back-end is handled via HTTP requests using JSON format.  
+The API supports the following HTTP methods:
+
+- GET
+- POST
+- PUT
+- DELETE
+
+### **Authentication and Route Protection**
+
+The API implements:
+
+- Token-based authentication using **Laravel Sanctum**
+- Protected routes for authenticated users
+- Role-based access control (`user` and `admin`)
+
+Public routes:
+- `/api/login`
+- `/api/register`
+
+All other routes require authentication.
+
+---
+
+## **Database**
+
+The database manages more than the required **7 entities**, all properly related.
+
+### **Tables**
+
+- users
+- products
+- product_values
+- transactions
+- boxes
+- packs
+- cards
+- product_value_transaction
+
+### **Relationships**
+
+- Users can perform transactions
+- Products have multiple price variations
+- Transactions can include multiple product values
+- Boxes contain packs, packs contain cards
+
+All tables follow Laravel naming conventions.
+
+---
+
+## **Factories and Seeders**
+
+The database is populated using factories and seeders:
+
+- Realistic Pokémon product names
+- New and used product conditions
+- Used prices are always lower than new prices
+- Coherent stock values
+- Fake users and transactions for testing
+
+---
+
+## **Functionality**
+
+### **User Role**
+
+- Register and login
+- Browse products
+- Search products by name
+- View product prices
+- Buy products
+- View purchase history
+
+### **Admin Role**
+
+- Create new products
+- Define prices, conditions, and stock
+- Update and delete products
+- Access protected admin-only routes
+
+---
+
+## **Front-End Requirements**
+
+### **Routing and Navigation**
+
+- React Router used for navigation
+- Protected routes for authenticated users
+- Dynamic routes for product details
+
+### **State Management**
+
+- React hooks (`useState`, `useEffect`)
+- Token and role stored in `localStorage`
+
+### **Forms and Validation**
+
+- Login and register forms with validation
+- Product creation with server-side validation
+- Search input with real-time filtering
+
+### **Responsive Design**
+
+- Responsive layout using CSS
+- Navigation adapts to smaller screens
+- Tested on desktop and mobile resolutions
+
+---
+
+## **Transactions**
+
+Users can buy products through the interface.
+
+When a purchase is made:
+- A transaction is created
+- Stock is reduced
+- The purchase appears in the user's transaction history
+
+---
+
+## **Project Structure**
+
+pokemon-market/
+├── backend/ (Laravel API)
+│ ├── app/
+│ ├── database/
+│ ├── routes/
+│ └── ...
+│
+├── frontend/ (React + Vite)
+│ ├── src/
+│ │ ├── pages/
+│ │ ├── auth/
+│ │ ├── components/
+│ │ └── api/
+│ └── ...
+│
+└── README.md
+
+
+---
+
+## **Installation Instructions**
+
+### **Backend**
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve
+
+```
+### **Frontend**
+
+npm install
+npm run dev
+
