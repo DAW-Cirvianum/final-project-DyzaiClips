@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/axios'
 
@@ -8,46 +8,74 @@ function Login({ setToken }) {
     const [error, setError] = useState('')
     const navigate = useNavigate()
 
-    /**
-     * Handle login form submission.
-     * Sends credentials to the backend and stores the returned token.
-     */
+    // Redirigir si l'usuari ja està loguejat
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            navigate('/products')
+        }
+    }, [navigate])
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
 
-        try {
-            const response = await api.post('/login', {
-                email,
-                password,
-            })
+        // VALIDACIÓ AL CLIENT
+        if (!email || !password) {
+            setError('Tots els camps són obligatoris')
+            return
+        }
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            setError('Email no és vàlid')
+            return
+        }
+        if (password.length < 6) {
+            setError('La contrasenya ha de tenir almenys 6 caràcters')
+            return
+        }
 
-            // DEBUG (pots deixar-ho o treure-ho després)
+        try {
+            const response = await api.post('/login', { email, password })
+
+            // DEBUG: pots treure després
             console.log('Login response:', response.data)
 
-            /**
-             * IMPORTANT:
-             * Laravel returns the token as "token"
-             */
             const token = response.data.token
             const role = response.data.role
 
             if (!token || !role) {
-                throw new Error('Token or role not found in response')
+                throw new Error('Token o rol no retornat pel servidor')
             }
 
-            // Store token and role in localStorage
+            // Guardar token i rol
             localStorage.setItem('token', token)
             localStorage.setItem('role', role)
-
             setToken(token)
 
-
-            // Redirect to products page
+            // Redirigir a la pàgina de products
             navigate('/products')
+
         } catch (err) {
             console.error(err)
-            setError('Invalid credentials')
+
+            // VALIDACIÓ D'ERROR DEL SERVIDOR
+            if (err.response) {
+                switch (err.response.status) {
+                    case 401:
+                        setError('Credencials incorrectes')
+                        break
+                    case 403:
+                        setError('Verifica el teu email abans d’iniciar sessió')
+                        break
+                    case 422:
+                        setError('Hi ha errors amb les dades enviades')
+                        break
+                    default:
+                        setError('S’ha produït un error al servidor')
+                }
+            } else {
+                setError('No s’ha pogut connectar amb el servidor')
+            }
         }
     }
 
@@ -78,12 +106,10 @@ function Login({ setToken }) {
             </form>
 
             <p>
-                Don’t have an account? <a href="/register">Register</a>
+                No tens compte? <a href="/register">Registra’t</a>
             </p>
         </div>
     )
-
 }
 
 export default Login
-

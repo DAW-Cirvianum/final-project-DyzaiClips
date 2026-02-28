@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 /**
  * Product model.
  *
- * Represents a marketplace product such as a Pokémon card, pack or box.
+ * Represents a marketplace product such as a Pokémon card, pack, or box.
  */
 class Product extends Model
 {
@@ -19,11 +19,12 @@ class Product extends Model
     /**
      * The attributes that are mass assignable.
      *
-     * @var list<string>
+     * @var array<string>
      */
     protected $fillable = [
         'name',
         'type',
+        'image_url', 
     ];
 
     /**
@@ -46,4 +47,3 @@ class Product extends Model
         return $this->belongsToMany(User::class);
     }
 }
-

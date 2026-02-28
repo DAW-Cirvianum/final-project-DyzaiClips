@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import api from '../api/axios'
 
+const DEFAULT_IMAGE = 'https://via.placeholder.com/150?text=Product'
+
 function ProductValues() {
     const { id } = useParams()
     const [values, setValues] = useState([])
@@ -10,6 +12,7 @@ function ProductValues() {
     useEffect(() => {
         api.get(`/product-values?product_id=${id}`)
             .then(res => setValues(res.data))
+            .catch(() => setMessage('Error loading product prices'))
     }, [id])
 
     /**
@@ -31,7 +34,7 @@ function ProductValues() {
             ))
 
         } catch (error) {
-            setMessage('Error while purchasing')
+            setMessage(error.response?.data?.message || 'Error while purchasing')
         }
     }
 
@@ -39,11 +42,21 @@ function ProductValues() {
         <div className="page-container">
             <h2>Available prices</h2>
 
-            {message && <p>{message}</p>}
+            {message && <p className="info-message">{message}</p>}
 
             <div className="price-list">
                 {values.map(v => (
                     <div key={v.id} className="price-card">
+                        <img
+                            src={v.product.image_url || DEFAULT_IMAGE}
+                            alt={v.product.name}
+                            style={{
+                                width: '250px',
+                                height: '250px',
+                                objectFit: 'contain',
+                                borderRadius: '8px',
+                            }}
+                        />
                         <h4>{v.product.name}</h4>
 
                         <p><strong>Condition:</strong> {v.condition}</p>
@@ -55,7 +68,7 @@ function ProductValues() {
                             disabled={v.stock < 1}
                             onClick={() => buy(v.id)}
                         >
-                            Buy
+                            {v.stock < 1 ? 'Out of stock' : 'Buy'}
                         </button>
                     </div>
                 ))}

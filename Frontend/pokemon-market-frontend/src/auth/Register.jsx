@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../api/axios'
 
@@ -10,12 +10,31 @@ function Register() {
     const [errors, setErrors] = useState({})
     const navigate = useNavigate()
 
-    /**
-     * Handle register form submission
-     */
+    // Redirigir si l'usuari ja està loguejat
+    useEffect(() => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            navigate('/products')
+        }
+    }, [navigate])
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         setErrors({})
+
+        // VALIDACIÓ AL CLIENT
+        const clientErrors = {}
+        if (!name.trim()) clientErrors.name = ['El nom és obligatori']
+        if (!email.trim()) clientErrors.email = ['L’email és obligatori']
+        else if (!/\S+@\S+\.\S+/.test(email)) clientErrors.email = ['Email no vàlid']
+        if (!password) clientErrors.password = ['La contrasenya és obligatòria']
+        else if (password.length < 6) clientErrors.password = ['La contrasenya ha de tenir almenys 6 caràcters']
+        if (password !== passwordConfirmation) clientErrors.password_confirmation = ['Les contrasenyes no coincideixen']
+
+        if (Object.keys(clientErrors).length) {
+            setErrors(clientErrors)
+            return
+        }
 
         try {
             await api.post('/register', {
@@ -25,12 +44,23 @@ function Register() {
                 password_confirmation: passwordConfirmation,
             })
 
+            // Redirigir al login després del registre
             navigate('/login')
+
         } catch (err) {
-            if (err.response && err.response.status === 422) {
-                setErrors(err.response.data.errors)
+            console.error(err)
+            // Maneig d'errors del servidor
+            if (err.response) {
+                switch (err.response.status) {
+                    case 422:
+                        // Laravel retorna errors de validació
+                        setErrors(err.response.data.errors)
+                        break
+                    default:
+                        setErrors({ general: ['S’ha produït un error al servidor'] })
+                }
             } else {
-                setErrors({ general: ['Registration failed'] })
+                setErrors({ general: ['No s’ha pogut connectar amb el servidor'] })
             }
         }
     }
@@ -39,9 +69,7 @@ function Register() {
         <div className="auth-container">
             <h2>Register</h2>
 
-            {errors.general && (
-                <p className="error">{errors.general[0]}</p>
-            )}
+            {errors.general && <p className="error">{errors.general[0]}</p>}
 
             <form onSubmit={handleSubmit} className="auth-form">
 
@@ -94,6 +122,7 @@ function Register() {
                         required
                     />
                     <small>Must match the password.</small>
+                    {errors.password_confirmation && <p className="error">{errors.password_confirmation[0]}</p>}
                 </div>
 
                 <button type="submit">Register</button>

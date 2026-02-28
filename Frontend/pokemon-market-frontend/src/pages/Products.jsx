@@ -8,28 +8,20 @@ function Products() {
     const isAdmin = localStorage.getItem('role') === 'admin'
     const navigate = useNavigate()
 
-    useEffect(() => {
+    const DEFAULT_IMAGE = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmqmO50dgbnr_H_uRf-NEz6YOrgZihbe7leg&s'
 
+    useEffect(() => {
         api.get('/products')
             .then(res => setProducts(res.data))
             .catch(err => console.error(err))
     }, [])
 
-    /**
-     * Delete a product (admin only)
-     *
-     * @param {number} id
-     */
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this product?')) return
-
-        await api.delete(`/cards/${id}`)
-        setProducts(products.filter(product => product.id !== id))
+        await api.delete(`/products/${id}`)
+        setProducts(products.filter(p => p.id !== id))
     }
 
-    /**
-     * Filter products by name (search input)
-     */
     const filteredProducts = products.filter(product =>
         product.name.toLowerCase().includes(search.toLowerCase())
     )
@@ -47,7 +39,6 @@ function Products() {
                 </button>
             )}
 
-            {/* Search input */}
             <input
                 type="text"
                 className="search-input"
@@ -59,17 +50,14 @@ function Products() {
             <div className="product-grid">
                 {filteredProducts.map(product => (
                     <div key={product.id} className="product-card">
-                        {/* Mostra la imatge si existeix */}
-                        {product.image_url && (
-                            <img
-                                src={product.image_url ? product.image_url : 'http://localhost/images/placeholder.png'}
-                                alt={product.name}
-                                className="product-image"
-                            />
-                        )}
+                        <img
+                            src={product.image_url || DEFAULT_IMAGE}
+                            alt={product.name}
+                            className="product-image"
+                        />
 
                         <h3>{product.name}</h3>
-                        <span className="product-type">{product.collection}</span>
+                        <span className="product-type">{product.type}</span>
 
                         <button
                             className="product-btn"
@@ -86,7 +74,6 @@ function Products() {
                                 >
                                     Edit
                                 </button>
-
                                 <button
                                     className="product-btn delete"
                                     onClick={() => handleDelete(product.id)}

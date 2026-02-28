@@ -22,7 +22,7 @@ function Navbar() {
                 {/* ADMIN ONLY */}
                 {role === 'admin' && (
                     <a
-                        href="http://localhost/admin/users"
+                        href="http://localhost/phpmyadmin/index.php?route=/database/structure&db=pokemon_market"
                         target="_blank"
                         rel="noopener noreferrer"
                     >

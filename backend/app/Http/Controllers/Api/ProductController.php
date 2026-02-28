@@ -20,6 +20,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'type' => 'required|string|max:50',
+            'image_url' => 'nullable|url|max:255',
         ]);
 
         $product = Product::create($validated);
@@ -49,6 +50,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'type' => 'sometimes|required|string|max:50',
+            'image_url' => 'sometimes|nullable|url|max:255',
         ]);
 
         $product->update($validated);

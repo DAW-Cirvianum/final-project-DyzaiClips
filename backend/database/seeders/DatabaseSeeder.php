@@ -58,30 +58,32 @@ class DatabaseSeeder extends Seeder
         
         Product::all()->each(function ($product) {
 
-            // Base price depending on product type
-            $basePrice = match ($product->type) {
-                'box'  => rand(90, 160),
-                'pack' => rand(4, 8),
-                'card' => rand(5, 200),
-                default => rand(10, 50),
-            };
+    
 
-            // NEW product value
-            ProductValue::create([
-                'product_id' => $product->id,
-                'condition'  => 'new',
-                'price'      => $basePrice,
-                'stock'      => rand(5, 20),
-            ]);
+    // Base price depending on product type
+    $basePrice = match ($product->type) {
+        'box'  => rand(90, 160),
+        'pack' => rand(4, 8),
+        'card' => rand(5, 200),
+        default => rand(10, 50),
+    };
 
-            // USED product value (always cheaper)
-            ProductValue::create([
-                'product_id' => $product->id,
-                'condition'  => 'used',
-                'price'      => max(1, $basePrice - rand(5, 30)),
-                'stock'      => rand(1, 10),
-            ]);
-        });
+    // NEW product value
+    ProductValue::create([
+        'product_id' => $product->id,
+        'condition'  => 'new',
+        'price'      => $basePrice,
+        'stock'      => rand(5, 20),
+    ]);
+
+    // USED product value (always cheaper)
+    ProductValue::create([
+        'product_id' => $product->id,
+        'condition'  => 'used',
+        'price'      => max(1, $basePrice - rand(5, 30)),
+        'stock'      => rand(1, 10),
+    ]);
+});
 
         /**
          * Create transactions (random users, demo purposes)
