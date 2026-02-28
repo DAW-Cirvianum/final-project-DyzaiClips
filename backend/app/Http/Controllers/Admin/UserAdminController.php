@@ -9,7 +9,7 @@ class UserAdminController extends Controller
 {
     /**
      * Show all users.
-     */
+     */ 
     public function index()
     {
         $users = User::all();

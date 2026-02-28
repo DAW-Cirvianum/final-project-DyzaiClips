@@ -6,35 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Card;
 use Illuminate\Http\Request;
 
-/**
- * CardController
- *
- * Handles CRUD operations for Pokémon cards.
- */
 class CardController extends Controller
 {
-    /**
-     * Display a listing of cards.
-     *
-     * GET /api/cards
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function index()
     {
-        $cards = Card::with('pack')->get();
+        $cards = Card::with('pack')->get()->map(function ($card) {
+            $card->image_url = $card->image ? asset('storage/' . $card->image) : null;
+            return $card;
+        });
 
-        return response()->json($cards);
+        return response()->json($cards, 200);
     }
 
-    /**
-     * Store a newly created card.
-     *
-     * POST /api/cards
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -44,46 +27,37 @@ class CardController extends Controller
             'status' => 'required|string|max:50',
             'productions' => 'required|integer|min:0',
             'pack_id' => 'required|exists:packs,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('cards', 'public');
+            $validated['image'] = $path;
+        }
 
         $card = Card::create($validated);
 
         return response()->json($card, 201);
     }
 
-    /**
-     * Display the specified card.
-     *
-     * GET /api/cards/{id}
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show(int $id)
     {
         $card = Card::with('pack')->find($id);
 
-        if (! $card) {
+        if (!$card) {
             return response()->json(['message' => 'Card not found'], 404);
         }
 
-        return response()->json($card);
+        $card->image_url = $card->image ? asset('storage/' . $card->image) : null;
+
+        return response()->json($card, 200);
     }
 
-    /**
-     * Update the specified card.
-     *
-     * PUT /api/cards/{id}
-     *
-     * @param Request $request
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(Request $request, int $id)
     {
         $card = Card::find($id);
 
-        if (! $card) {
+        if (!$card) {
             return response()->json(['message' => 'Card not found'], 404);
         }
 
@@ -96,30 +70,29 @@ class CardController extends Controller
             'pack_id' => 'sometimes|required|exists:packs,id',
         ]);
 
+        if ($request->hasFile('image')) {
+            if ($card->image) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($card->image);
+            }
+            $path = $request->file('image')->store('cards', 'public');
+            $card->image = $path;
+        }
+
         $card->update($validated);
 
-        return response()->json($card);
+        return response()->json($card, 200);
     }
 
-    /**
-     * Remove the specified card.
-     *
-     * DELETE /api/cards/{id}
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy(int $id)
     {
         $card = Card::find($id);
 
-        if (! $card) {
+        if (!$card) {
             return response()->json(['message' => 'Card not found'], 404);
         }
 
         $card->delete();
 
-        return response()->json(['message' => 'Card deleted successfully']);
+        return response()->json(['message' => 'Card deleted successfully'], 200);
     }
 }
-

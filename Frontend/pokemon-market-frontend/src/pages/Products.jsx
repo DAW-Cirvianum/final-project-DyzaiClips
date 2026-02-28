@@ -8,21 +8,11 @@ function Products() {
     const isAdmin = localStorage.getItem('role') === 'admin'
     const navigate = useNavigate()
 
-
-    {
-        isAdmin && (
-            <button
-                className="admin-btn"
-                onClick={() => navigate('/admin/products/create')}
-            >
-                + Create Product
-            </button>
-        )
-    }
-
     useEffect(() => {
+
         api.get('/products')
             .then(res => setProducts(res.data))
+            .catch(err => console.error(err))
     }, [])
 
     /**
@@ -31,11 +21,9 @@ function Products() {
      * @param {number} id
      */
     const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this product?')) {
-            return
-        }
+        if (!window.confirm('Are you sure you want to delete this product?')) return
 
-        await api.delete(`/products/${id}`)
+        await api.delete(`/cards/${id}`)
         setProducts(products.filter(product => product.id !== id))
     }
 
@@ -49,6 +37,7 @@ function Products() {
     return (
         <div className="page-container">
             <h2>Products</h2>
+
             {isAdmin && (
                 <button
                     className="admin-btn"
@@ -70,11 +59,17 @@ function Products() {
             <div className="product-grid">
                 {filteredProducts.map(product => (
                     <div key={product.id} className="product-card">
-                        <h3>{product.name}</h3>
+                        {/* Mostra la imatge si existeix */}
+                        {product.image_url && (
+                            <img
+                                src={product.image_url ? product.image_url : 'http://localhost/images/placeholder.png'}
+                                alt={product.name}
+                                className="product-image"
+                            />
+                        )}
 
-                        <span className="product-type">
-                            {product.type}
-                        </span>
+                        <h3>{product.name}</h3>
+                        <span className="product-type">{product.collection}</span>
 
                         <button
                             className="product-btn"
@@ -108,5 +103,3 @@ function Products() {
 }
 
 export default Products
-
-

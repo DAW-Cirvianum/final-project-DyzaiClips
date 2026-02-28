@@ -7,19 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-/**
- * AuthController
- *
- * Handles user registration and authentication.
- */
 class AuthController extends Controller
 {
-    /**
-     * Register a new user.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function register(Request $request)
     {
         $data = $request->validate([
@@ -41,12 +30,6 @@ class AuthController extends Controller
         ], 201);
     }
 
-    /**
-     * Authenticate a user and return an API token.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function login(Request $request)
     {
         $data = $request->validate([
@@ -65,7 +48,6 @@ class AuthController extends Controller
         return response()->json([
             'token' => $user->createToken('api-token')->plainTextToken,
             'role' => $user->role,
-        ]);
+        ], 200);
     }
 }
-

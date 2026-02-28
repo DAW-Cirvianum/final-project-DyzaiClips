@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\ProductValue;
@@ -27,16 +29,26 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        User::firstOrCreate(
+            ['email' => 'admin@pokemonmarket.com'],
+            [
+                'name' => 'Admin',
+                'password' => Hash::make('admin123'),
+                'role' => 'admin',
+                'email_verified_at' => now()
+            ]
+        );
+
         User::factory()->count(10)->create();
 
 
         Box::factory()
-            ->count(5)
+            ->count(2)
             ->has(
                 Pack::factory()
-                    ->count(10)
+                    ->count(2)
                     ->has(
-                        Card::factory()->count(15)
+                        Card::factory()->count(2)
                     )
             )
             ->create();

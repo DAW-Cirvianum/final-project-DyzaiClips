@@ -6,35 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Box;
 use Illuminate\Http\Request;
 
-/**
- * BoxController
- *
- * Handles CRUD operations for Pokémon boxes.
- */
 class BoxController extends Controller
 {
-    /**
-     * Display a listing of boxes.
-     *
-     * GET /api/boxes
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function index()
     {
         $boxes = Box::with('packs')->get();
 
-        return response()->json($boxes);
+        return response()->json($boxes, 200);
     }
 
-    /**
-     * Store a newly created box.
-     *
-     * POST /api/boxes
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -47,14 +27,6 @@ class BoxController extends Controller
         return response()->json($box, 201);
     }
 
-    /**
-     * Display the specified box.
-     *
-     * GET /api/boxes/{id}
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show(int $id)
     {
         $box = Box::with('packs')->find($id);
@@ -63,18 +35,9 @@ class BoxController extends Controller
             return response()->json(['message' => 'Box not found'], 404);
         }
 
-        return response()->json($box);
+        return response()->json($box, 200);
     }
 
-    /**
-     * Update the specified box.
-     *
-     * PUT /api/boxes/{id}
-     *
-     * @param Request $request
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function update(Request $request, int $id)
     {
         $box = Box::find($id);
@@ -90,17 +53,9 @@ class BoxController extends Controller
 
         $box->update($validated);
 
-        return response()->json($box);
+        return response()->json($box, 200);
     }
 
-    /**
-     * Remove the specified box.
-     *
-     * DELETE /api/boxes/{id}
-     *
-     * @param int $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function destroy(int $id)
     {
         $box = Box::find($id);
@@ -111,6 +66,6 @@ class BoxController extends Controller
 
         $box->delete();
 
-        return response()->json(['message' => 'Box deleted successfully']);
+        return response()->json(['message' => 'Box deleted successfully'], 200);
     }
 }

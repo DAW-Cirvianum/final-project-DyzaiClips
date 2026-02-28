@@ -27,6 +27,7 @@ class Card extends Model
         'status',
         'productions',
         'pack_id',
+        'image',
     ];
 
     /**
